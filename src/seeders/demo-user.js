@@ -17,18 +17,24 @@ module.exports = {
       [
         {
           email: "admin@gmail.com",
-          password: "123456",
+          password:
+            "$2a$10$FprEx3DcPw2G82kdoWY86uAFuAxBcBdo0BfQ66N5C.Me35oC/M9GO",
           username: "John Doe",
+          role: "ADMIN",
         },
         {
-          email: "candidate@gmail.com",
-          password: "123456",
+          email: "user@gmail.com",
+          password:
+            "$2a$10$FprEx3DcPw2G82kdoWY86uAFuAxBcBdo0BfQ66N5C.Me35oC/M9GO",
           username: "John Doe1",
+          role: "USER",
         },
         {
-          email: "manager@gmail.com",
-          password: "123456",
+          email: "moderator@gmail.com",
+          password:
+            "$2a$10$FprEx3DcPw2G82kdoWY86uAFuAxBcBdo0BfQ66N5C.Me35oC/M9GO",
           username: "John Doe2",
+          role: "MODERATOR",
         },
       ],
       {}

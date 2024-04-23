@@ -87,13 +87,14 @@ const deleteFunc = async (req, res) => {
   }
 };
 const getUserAccount = async (req, res) => {
+  // console.log("check user: ", req.body);
   // console.log("check user: ", req.user);
   return res.status(200).json({
     EM: "Get user account successfully",
     EC: 0,
     DT: {
       access_token: req.token,
-      groupWithRoles: req.user.groupWithRoles,
+      role: req.user.role,
       email: req.user.email,
       username: req.user.username,
     },

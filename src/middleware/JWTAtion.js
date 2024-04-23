@@ -1,7 +1,7 @@
 require("dotenv").config();
 import jwt from "jsonwebtoken";
 
-const nonScurePaths = ["/", "/login", "/register", "/logout"];
+const nonScurePaths = ["/book/read", "/login", "/register", "/logout"];
 const createJWT = (payload) => {
   let key = process.env.JWT_SECRET;
   let token = null;
@@ -37,6 +37,7 @@ const extractToken = (req) => {
 };
 
 const checkUserJWT = (req, res, next) => {
+  // console.log("path: ", req.path);
   if (nonScurePaths.includes(req.path)) {
     return next();
   }
@@ -64,44 +65,45 @@ const checkUserJWT = (req, res, next) => {
     });
   }
 };
-const checkUserPermission = (req, res, next) => {
-  if (nonScurePaths.includes(req.path) || req.path === "/account") {
-    return next();
-  }
-  if (req.user) {
-    let email = req.user.email;
-    let role = req.user.groupWithRoles.Roles;
-    let currentUrl = req.path; // Url hiện tại
-    if (!role || role.length === 0) {
-      return res.status(403).json({
-        EC: -1,
-        EM: "You don't have permission to access this recource!",
-        DT: "",
-      });
-    }
-    let canAceess = role.some(
-      (item) => item.url === currentUrl || currentUrl.includes(item.url)
-    );
-    if (canAceess === true) {
-      next();
-    } else {
-      return res.status(403).json({
-        EC: -1,
-        EM: "You don't have permission to access this recource!",
-        DT: "",
-      });
-    }
-  } else {
-    return res.status(401).json({
-      EC: -1,
-      EM: "Not authorized user!",
-      DT: "",
-    });
-  }
-};
+// const checkUserPermission = (req, res, next) => {
+//   if (nonScurePaths.includes(req.path) || req.path === "/account") {
+//     return next();
+//   }
+//   if (req.user) {
+//     let email = req.user.email;
+//     // let role = req.user.groupWithRoles.Roles;
+//     let role = req.user.role;
+//     let currentUrl = req.path; // Url hiện tại
+//     if (!role || role.length === 0) {
+//       return res.status(403).json({
+//         EC: -1,
+//         EM: "You don't have permission to access this recource!",
+//         DT: "",
+//       });
+//     }
+//     let canAceess = role.some(
+//       (item) => item.url === currentUrl || currentUrl.includes(item.url)
+//     );
+//     if (canAceess === true) {
+//       next();
+//     } else {
+//       return res.status(403).json({
+//         EC: -1,
+//         EM: "You don't have permission to access this recource!",
+//         DT: "",
+//       });
+//     }
+//   } else {
+//     return res.status(401).json({
+//       EC: -1,
+//       EM: "Not authorized user!",
+//       DT: "",
+//     });
+//   }
+// };
 module.exports = {
   createJWT,
   verifyJWT,
   checkUserJWT,
-  checkUserPermission,
+  // checkUserPermission,
 };

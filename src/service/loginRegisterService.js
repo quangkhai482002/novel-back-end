@@ -55,7 +55,7 @@ const registerNewUser = async (rawuserData) => {
     await db.User.create({
       email: rawuserData.email,
       password: hashPass,
-      groupID: 4,
+      // groupID: 4,
       //   username: rawuserData.username,
       //   phone: rawuserData.phone,
     });
@@ -80,13 +80,14 @@ const handleUserLogin = async (rawuserData) => {
         user.password
       );
       //test roles:
-      let groupWithRoles = await getGroupWithRole(user);
+      // let groupWithRoles = await getGroupWithRole(user);
 
       //=============== create token ==============
       let payload = {
         email: user.email,
-        groupWithRoles,
+        // groupWithRoles,
         username: user.username,
+        role: user.role,
       };
       let token = createJWT(payload);
       //===========================================
@@ -96,9 +97,10 @@ const handleUserLogin = async (rawuserData) => {
           EC: 0,
           DT: {
             access_token: token,
-            groupWithRoles: groupWithRoles,
+            // groupWithRoles: groupWithRoles,
             email: user.email,
             username: user.username,
+            role: user.role,
           },
         };
       }

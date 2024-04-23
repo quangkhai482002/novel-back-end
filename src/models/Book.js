@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Book.init(
     {
-      bookID: DataTypes.INTEGER,
+      bookID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       writerID: DataTypes.INTEGER,
       bookName: DataTypes.STRING,
       author: DataTypes.STRING,

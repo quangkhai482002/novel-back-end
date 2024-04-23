@@ -6,31 +6,39 @@ import roleController from "../controller/roleController";
 import { checkUserJWT, checkUserPermission } from "../middleware/JWTAtion";
 import bookController from "../controller/bookController";
 
+const cloudinary = require("../config/cloundinary");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: "images",
+  allowedFormats: ["jpg", "png", "jpeg"],
+  transformation: [{ width: 500, height: 500, crop: "limit" }],
+});
+const upload = multer({ storage: storage });
+
 const router = express.Router();
 
 /**
  *
  * @param {*} app : express app
  */
-const checkUser = (req, res, next) => {
-  const nonSecurePaths = ["/", "/login", "/register"];
-  if (nonSecurePaths.includes(req.path)) {
-    next();
-  } else {
-  }
-};
 const initApiRoutes = (app) => {
   // path, handle
   // restful api
   // get, post, put, patch, delete
 
-  // router.all("*", checkUserJWT, checkUserPermission);
+  // router.all(
+  //   "*", // all path
+  //   checkUserJWT
+  //   // checkUserPermission
+  // );
 
   router.post("/register", apiController.handleRegister);
   router.post("/login", apiController.handleLogin);
   router.post("/logout", apiController.handleLogout);
 
-  router.get("/account", userController.getUserAccount);
+  router.get("/account", checkUserJWT, userController.getUserAccount);
   // user routes
   router.get("/user/read", userController.readFunc);
   router.post("/user/create", userController.createFunc);
@@ -49,6 +57,16 @@ const initApiRoutes = (app) => {
   //book routes
   router.get("/book/read", bookController.readFunc);
   router.get("/book/read/:id", bookController.readByIDFunc);
+  router.post(
+    "/book/create",
+    upload.fields([{ name: "poster", maxCount: 1 }]),
+    bookController.createFunc
+  );
+  router.post(
+    "/book/create-image",
+    upload.fields([{ name: "poster", maxCount: 1 }]),
+    bookController.createImageFunc
+  );
 
   return app.use("/api/v1/", router);
 };
