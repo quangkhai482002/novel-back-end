@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Comment.init(
     {
-      commentID: DataTypes.INTEGER,
+      commentID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       userID: DataTypes.INTEGER,
       chapterID: DataTypes.INTEGER,
       postID: DataTypes.INTEGER,

@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Chapter.init(
     {
-      chapterID: DataTypes.INTEGER,
+      chapterID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       bookID: DataTypes.INTEGER,
       writerID: DataTypes.INTEGER,
       chapterName: DataTypes.STRING,

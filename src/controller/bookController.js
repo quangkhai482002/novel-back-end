@@ -1,5 +1,6 @@
 import bookService from "../service/bookService";
 
+// ========        books
 const readFunc = async (req, res) => {
   try {
     let data = await bookService.getBook();
@@ -71,9 +72,84 @@ const createImageFunc = async (req, res) => {
     });
   }
 };
+
+// ========        chapters
+const getChapterFunc = async (req, res) => {
+  try {
+    let id = req.params.id;
+    let data = await bookService.getChapter(id);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+const readChapterFunc = async (req, res) => {
+  try {
+    let id = req.params.id;
+    let data = await bookService.getChapterById(id);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+const createChapterFunc = async (req, res) => {
+  try {
+    let data = await bookService.createChapter(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+const updateChapterFunc = async (req, res) => {
+  try {
+    let data = await bookService.updateChapter(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+
 module.exports = {
   readFunc,
   readByIDFunc,
   createFunc,
   createImageFunc,
+  getChapterFunc,
+  readChapterFunc,
+  createChapterFunc,
+  updateChapterFunc,
 };

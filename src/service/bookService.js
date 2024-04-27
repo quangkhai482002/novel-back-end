@@ -1,4 +1,5 @@
 import db from "../models/index";
+// books
 const getBook = async () => {
   try {
     let data = await db.Book.findAll({
@@ -86,8 +87,6 @@ const createBook = async (data) => {
 };
 const createImage = async (data) => {
   try {
-    let newImage = await db.Book.create(data);
-    console.log(newImage);
     return {
       EC: 0,
       EM: "Create image successfully",
@@ -103,9 +102,121 @@ const createImage = async (data) => {
   }
 };
 
+// chapters
+
+const getChapter = async (bookID) => {
+  try {
+    let data = await db.Chapter.findAll({
+      where: {
+        bookID: bookID,
+      },
+      attributes: [
+        "chapterID",
+        "bookID",
+        "writerID",
+        "chapterName",
+        "orderNumber",
+        "content",
+        "audio",
+        "view",
+      ],
+    });
+    return {
+      EM: "Get chapter success",
+      EC: 0,
+      DT: data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: 1,
+      EM: "error from service",
+      DT: [],
+    };
+  }
+};
+const getChapterById = async (id) => {
+  try {
+    let data = await db.Chapter.findOne({
+      where: {
+        chapterID: id,
+      },
+      attributes: [
+        "chapterID",
+        "bookID",
+        "writerID",
+        "chapterName",
+        "orderNumber",
+        "content",
+        "audio",
+        "view",
+      ],
+      include: {
+        model: db.Book,
+        attributes: ["bookName"],
+      },
+    });
+    return {
+      EM: "Get chapter success",
+      EC: 0,
+      DT: data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: 1,
+      EM: "error from service",
+      DT: [],
+    };
+  }
+};
+const createChapter = async (data) => {
+  try {
+    let newChapter = await db.Chapter.create(data);
+    console.log(newChapter);
+    return {
+      EC: 0,
+      EM: "Create chapter successfully",
+      DT: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: 1,
+      EM: "error from service",
+      DT: [],
+    };
+  }
+};
+const updateChapter = async (data) => {
+  try {
+    let chapter = await db.Chapter.update(data, {
+      where: {
+        chapterID: data.chapterID,
+      },
+    });
+    console.log(chapter);
+    return {
+      EC: 0,
+      EM: "Update chapter successfully",
+      DT: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: 1,
+      EM: "error from service",
+      DT: [],
+    };
+  }
+};
 module.exports = {
   getBook,
   getBookByID,
   createBook,
   createImage,
+  getChapter,
+  getChapterById,
+  createChapter,
+  updateChapter,
 };

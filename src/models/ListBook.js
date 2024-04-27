@@ -14,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   ListBook.init(
     {
-      listID: DataTypes.INTEGER,
+      listID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       userID: DataTypes.INTEGER,
       listName: DataTypes.STRING,
     },
