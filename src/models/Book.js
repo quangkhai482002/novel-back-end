@@ -9,12 +9,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Book.hasMany(
-        models.Chapter
-        //   , {
-        //   foreignKey: "bookID",
-        // }
-      );
+      Book.hasMany(models.Chapter);
+      Book.belongsTo(models.User, {
+        foreignKey: "writerID",
+      });
+      Book.belongsToMany(models.User, {
+        through: "UserFollowBook",
+        foreignKey: "bookID",
+      });
+      Book.belongsToMany(models.ListBook, {
+        through: "Book_ListBook",
+        foreignKey: "bookID",
+      });
+      Book.belongsToMany(models.User, {
+        through: "Review",
+        foreignKey: "bookID",
+      });
     }
   }
   Book.init(

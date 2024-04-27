@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       Chapter.belongsTo(models.Book, {
         foreignKey: "bookID",
       });
+      Chapter.belongsTo(models.User, {
+        foreignKey: "writerID",
+      });
     }
   }
   Chapter.init(

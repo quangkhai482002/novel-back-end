@@ -13,11 +13,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Review.init(
     {
-      reviewID: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
       userID: DataTypes.INTEGER,
       bookID: DataTypes.INTEGER,
       content: DataTypes.TEXT,

@@ -13,11 +13,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   UsergiveCoupon.init(
     {
-      userID: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
+      userID: DataTypes.INTEGER,
+
       bookID: DataTypes.INTEGER,
       countOfCoupon: DataTypes.INTEGER,
     },

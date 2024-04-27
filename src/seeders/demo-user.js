@@ -12,33 +12,33 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert(
-      "User",
-      [
-        {
-          email: "admin@gmail.com",
-          password:
-            "$2a$10$FprEx3DcPw2G82kdoWY86uAFuAxBcBdo0BfQ66N5C.Me35oC/M9GO",
-          username: "John Doe",
-          role: "ADMIN",
-        },
-        {
-          email: "user@gmail.com",
-          password:
-            "$2a$10$FprEx3DcPw2G82kdoWY86uAFuAxBcBdo0BfQ66N5C.Me35oC/M9GO",
-          username: "John Doe1",
-          role: "USER",
-        },
-        {
-          email: "moderator@gmail.com",
-          password:
-            "$2a$10$FprEx3DcPw2G82kdoWY86uAFuAxBcBdo0BfQ66N5C.Me35oC/M9GO",
-          username: "John Doe2",
-          role: "MODERATOR",
-        },
-      ],
-      {}
-    );
+    // await queryInterface.bulkInsert(
+    //   "User",
+    //   [
+    //     {
+    //       email: "admin@gmail.com",
+    //       password:
+    //         "$2a$10$FprEx3DcPw2G82kdoWY86uAFuAxBcBdo0BfQ66N5C.Me35oC/M9GO",
+    //       username: "John Doe",
+    //       role: "ADMIN",
+    //     },
+    //     {
+    //       email: "user@gmail.com",
+    //       password:
+    //         "$2a$10$FprEx3DcPw2G82kdoWY86uAFuAxBcBdo0BfQ66N5C.Me35oC/M9GO",
+    //       username: "John Doe1",
+    //       role: "USER",
+    //     },
+    //     {
+    //       email: "moderator@gmail.com",
+    //       password:
+    //         "$2a$10$FprEx3DcPw2G82kdoWY86uAFuAxBcBdo0BfQ66N5C.Me35oC/M9GO",
+    //       username: "John Doe2",
+    //       role: "MODERATOR",
+    //     },
+    //   ],
+    //   {}
+    // );
   },
 
   async down(queryInterface, Sequelize) {

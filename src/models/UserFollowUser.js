@@ -13,11 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   UserFollowUser.init(
     {
-      userID: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
+      userID: DataTypes.INTEGER,
       followerID: DataTypes.INTEGER,
     },
     {
