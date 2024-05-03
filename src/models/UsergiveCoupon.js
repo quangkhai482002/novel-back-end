@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
   UsergiveCoupon.init(
     {
       userID: DataTypes.INTEGER,
-
       bookID: DataTypes.INTEGER,
       countOfCoupon: DataTypes.INTEGER,
     },

@@ -30,6 +30,9 @@ module.exports = {
       view: {
         type: Sequelize.INTEGER,
       },
+      type: {
+        type: Sequelize.STRING,
+      },
 
       createdAt: {
         allowNull: false,

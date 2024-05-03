@@ -85,9 +85,9 @@ const handleUserLogin = async (rawuserData) => {
       //=============== create token ==============
       let payload = {
         email: user.email,
-        // groupWithRoles,
         username: user.username,
         role: user.role,
+        userID: user.userID,
       };
       let token = createJWT(payload);
       //===========================================
@@ -97,10 +97,10 @@ const handleUserLogin = async (rawuserData) => {
           EC: 0,
           DT: {
             access_token: token,
-            // groupWithRoles: groupWithRoles,
             email: user.email,
             username: user.username,
             role: user.role,
+            userID: user.userID,
           },
         };
       }

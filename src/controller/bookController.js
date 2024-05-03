@@ -72,6 +72,24 @@ const createImageFunc = async (req, res) => {
     });
   }
 };
+const readByUserId = async (req, res) => {
+  try {
+    let id = req.params.id;
+    let data = await bookService.getBookByuserId(id);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
 
 // ========        chapters
 const getChapterFunc = async (req, res) => {
@@ -96,6 +114,43 @@ const readChapterFunc = async (req, res) => {
   try {
     let id = req.params.id;
     let data = await bookService.getChapterById(id);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+const getChapterDraftFunc = async (req, res) => {
+  try {
+    let id = req.params.id;
+    let data = await bookService.getChapterDraft(id);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+const updatePublishChapterFunc = async (req, res) => {
+  try {
+    let id = req.params.id;
+    console.log("id", id);
+    let data = await bookService.updatepublishChapter(id);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -148,8 +203,11 @@ module.exports = {
   readByIDFunc,
   createFunc,
   createImageFunc,
+  readByUserId,
   getChapterFunc,
   readChapterFunc,
   createChapterFunc,
   updateChapterFunc,
+  getChapterDraftFunc,
+  updatePublishChapterFunc,
 };

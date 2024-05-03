@@ -67,11 +67,14 @@ const initApiRoutes = (app) => {
     upload.fields([{ name: "poster", maxCount: 1 }]),
     bookController.createImageFunc
   );
+  router.get("/book/by-user/:id", bookController.readByUserId);
   // chapter routes
   router.get("/chapter/readAll/:id", bookController.getChapterFunc);
   router.get("/chapter/read/:id", bookController.readChapterFunc);
+  router.get("/chapter/draft/:id", bookController.getChapterDraftFunc);
   router.post("/chapter/create", bookController.createChapterFunc);
   router.put("/chapter/update", bookController.updateChapterFunc);
+  router.put("/chapter/publish/:id", bookController.updatePublishChapterFunc);
 
   return app.use("/api/v1/", router);
 };

@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Chapter.belongsTo(models.User, {
         foreignKey: "writerID",
       });
+      Chapter.hasMany(models.Comment);
     }
   }
   Chapter.init(
@@ -31,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       content: DataTypes.TEXT,
       audio: DataTypes.STRING,
       view: DataTypes.INTEGER,
+      type: DataTypes.STRING,
     },
     {
       sequelize,
