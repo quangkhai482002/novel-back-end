@@ -57,7 +57,7 @@ const createImageFunc = async (req, res) => {
     const linkImg = req.files["poster"][0];
     let data = await bookService.createImage(linkImg.path);
     // console.log(data);
-    console.log("linkImg", linkImg);
+    // console.log("linkImg", linkImg);
     // return res.send(linkImg);
     return res.status(200).json({
       EM: data.EM,
@@ -83,6 +83,22 @@ const readByUserId = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+const updateBookFunc = async (req, res) => {
+  try {
+    let data = await bookService.updateBook(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
     return res.status(500).json({
       EC: -1,
       EM: "Error from server",
@@ -149,7 +165,6 @@ const getChapterDraftFunc = async (req, res) => {
 const updatePublishChapterFunc = async (req, res) => {
   try {
     let id = req.params.id;
-    console.log("id", id);
     let data = await bookService.updatepublishChapter(id);
     return res.status(200).json({
       EM: data.EM,
@@ -183,7 +198,25 @@ const createChapterFunc = async (req, res) => {
 };
 const updateChapterFunc = async (req, res) => {
   try {
+    console.log(req.body);
     let data = await bookService.updateChapter(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+const deleteChapterFunc = async (req, res) => {
+  try {
+    let id = req.params.id;
+    let data = await bookService.deleteChapter(id);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -210,4 +243,6 @@ module.exports = {
   updateChapterFunc,
   getChapterDraftFunc,
   updatePublishChapterFunc,
+  updateBookFunc,
+  deleteChapterFunc,
 };

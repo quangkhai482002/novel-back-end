@@ -68,6 +68,7 @@ const initApiRoutes = (app) => {
     bookController.createImageFunc
   );
   router.get("/book/by-user/:id", bookController.readByUserId);
+  router.put("/book/update", bookController.updateBookFunc);
   // chapter routes
   router.get("/chapter/readAll/:id", bookController.getChapterFunc);
   router.get("/chapter/read/:id", bookController.readChapterFunc);
@@ -75,6 +76,7 @@ const initApiRoutes = (app) => {
   router.post("/chapter/create", bookController.createChapterFunc);
   router.put("/chapter/update", bookController.updateChapterFunc);
   router.put("/chapter/publish/:id", bookController.updatePublishChapterFunc);
+  router.delete("/chapter/delete/:id", bookController.deleteChapterFunc);
 
   return app.use("/api/v1/", router);
 };

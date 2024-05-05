@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import db from "../models/index";
 // books
 const getBook = async () => {
@@ -70,7 +71,6 @@ const getBookByID = async (id) => {
 const createBook = async (data) => {
   try {
     let newBook = await db.Book.create(data);
-    console.log(newBook);
     return {
       EC: 0,
       EM: "Create book successfully",
@@ -126,6 +126,36 @@ const getBookByuserId = async (id) => {
       EM: "Get book success",
       EC: 0,
       DT: data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: 1,
+      EM: "error from service",
+      DT: [],
+    };
+  }
+};
+const updateBook = async (data) => {
+  try {
+    let book = await db.Book.update(
+      {
+        bookName: data.bookName,
+        desciption: data.description,
+        tag: data.tag,
+        author: data.author,
+        poster: data.poster,
+      },
+      {
+        where: {
+          bookID: data.bookID,
+        },
+      }
+    );
+    return {
+      EC: 0,
+      EM: "Update chapter successfully",
+      DT: [],
     };
   } catch (error) {
     console.log(error);
@@ -254,14 +284,14 @@ const updatepublishChapter = async (chapterID) => {
         },
       }
     );
-    console.log(chapter);
+    // console.log(chapter);
     return {
       EC: 0,
       EM: "Update chapter successfully",
       DT: [],
     };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return {
       EC: 1,
       EM: "error from service",
@@ -288,15 +318,44 @@ const createChapter = async (data) => {
 };
 const updateChapter = async (data) => {
   try {
-    let chapter = await db.Chapter.update(data, {
+    let chapter = await db.Chapter.update(
+      {
+        orderNumber: data.orderNumber,
+        chapterName: data.chapterName,
+        content: data.content,
+      },
+      {
+        where: {
+          chapterID: data.chapterID,
+        },
+      }
+    );
+    console.log(chapter);
+    return {
+      EC: 0,
+      EM: "Update chapter successfully",
+      DT: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: 1,
+      EM: "error from service",
+      DT: [],
+    };
+  }
+};
+const deleteChapter = async (chapterID) => {
+  try {
+    let chapter = await db.Chapter.destroy({
       where: {
-        chapterID: data.chapterID,
+        chapterID: chapterID,
       },
     });
     console.log(chapter);
     return {
       EC: 0,
-      EM: "Update chapter successfully",
+      EM: "Delete chapter successfully",
       DT: [],
     };
   } catch (error) {
@@ -320,4 +379,6 @@ module.exports = {
   updateChapter,
   getChapterDraft,
   updatepublishChapter,
+  updateBook,
+  deleteChapter,
 };
