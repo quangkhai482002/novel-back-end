@@ -13,6 +13,7 @@
     "@babel/core": "7.23.3",
     "@babel/node": "7.22.19",
     "@babel/preset-env": "7.23.3",
+    "@payos/node": "^1.0.6",
     "bcryptjs": "2.4.3",
     "bluebird": "3.7.2",
     "body-parser": "1.20.2",

@@ -6,6 +6,7 @@ import roleController from "../controller/roleController";
 import { checkUserJWT, checkUserPermission } from "../middleware/JWTAtion";
 import bookController from "../controller/bookController";
 
+// upload image
 const cloudinary = require("../config/cloundinary");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
@@ -16,6 +17,10 @@ const storage = new CloudinaryStorage({
   transformation: [{ width: 500, height: 500, crop: "limit" }],
 });
 const upload = multer({ storage: storage });
+
+// payOS
+const payos = require("../config/payOS");
+const YOUR_DOMAIN = "http://localhost:3000";
 
 const router = express.Router();
 
@@ -77,6 +82,19 @@ const initApiRoutes = (app) => {
   router.put("/chapter/update", bookController.updateChapterFunc);
   router.put("/chapter/publish/:id", bookController.updatePublishChapterFunc);
   router.delete("/chapter/delete/:id", bookController.deleteChapterFunc);
+
+  // payment routes
+  router.post("/create-payment-link", async (req, res) => {
+    console.log("req.body", req.body);
+    const order = {
+      ...req.body,
+      orderCode: Math.floor(Math.random() * 1000000),
+      returnUrl: `http://localhost:3000`,
+      cancelUrl: `http://localhost:3000`,
+    };
+    const paymentLink = await payos.createPaymentLink(order);
+    return res.json(paymentLink);
+  });
 
   return app.use("/api/v1/", router);
 };
