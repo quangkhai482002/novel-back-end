@@ -230,6 +230,23 @@ const deleteChapterFunc = async (req, res) => {
     });
   }
 };
+const getBookByNameFunc = async (req, res) => {
+  try {
+    let name = req.params.name;
+    let data = await bookService.getBooksByName(name);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
 
 module.exports = {
   readFunc,
@@ -245,4 +262,5 @@ module.exports = {
   updatePublishChapterFunc,
   updateBookFunc,
   deleteChapterFunc,
+  getBookByNameFunc,
 };

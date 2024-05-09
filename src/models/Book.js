@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         through: "Review",
         foreignKey: "bookID",
       });
+      Book.hasMany(models.Review);
     }
   }
   Book.init(

@@ -55,6 +55,7 @@ const registerNewUser = async (rawuserData) => {
     await db.User.create({
       email: rawuserData.email,
       password: hashPass,
+      role: "USER",
       // groupID: 4,
       //   username: rawuserData.username,
       //   phone: rawuserData.phone,

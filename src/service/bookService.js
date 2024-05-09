@@ -1,5 +1,7 @@
 import { where } from "sequelize";
 import db from "../models/index";
+const { Op } = require("sequelize");
+
 // books
 const getBook = async () => {
   try {
@@ -162,6 +164,52 @@ const updateBook = async (data) => {
     return {
       EC: 1,
       EM: "error from service",
+      DT: [],
+    };
+  }
+};
+const getBooksByName = async (bookName) => {
+  try {
+    const data = await db.Book.findAll({
+      where: {
+        bookName: {
+          [Op.like]: "%" + bookName + "%",
+        },
+      },
+      attributes: [
+        "bookID",
+        "writerID",
+        "bookName",
+        "author",
+        "writer",
+        "ratting",
+        "poster",
+        "view",
+        "desciption",
+        "tag",
+        "follow",
+        "vote",
+      ],
+    });
+
+    if (!data.length) {
+      return {
+        EC: 0,
+        EM: "No books found with this name",
+        DT: [],
+      };
+    }
+
+    return {
+      EC: 0,
+      EM: "Successfully found the books",
+      DT: data,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      EC: 1,
+      EM: "Error from service",
       DT: [],
     };
   }
@@ -367,6 +415,7 @@ const deleteChapter = async (chapterID) => {
     };
   }
 };
+
 module.exports = {
   getBook,
   getBookByID,
@@ -381,4 +430,5 @@ module.exports = {
   updatepublishChapter,
   updateBook,
   deleteChapter,
+  getBooksByName,
 };

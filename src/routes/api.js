@@ -1,10 +1,11 @@
 import express from "express";
 import apiController from "../controller/apiController";
-import userController from "../controller/userController";
+import bookController from "../controller/bookController";
 import groupController from "../controller/groupController";
 import roleController from "../controller/roleController";
-import { checkUserJWT, checkUserPermission } from "../middleware/JWTAtion";
-import bookController from "../controller/bookController";
+import userController from "../controller/userController";
+import reviewController from "../controller/reviewController";
+import { checkUserJWT } from "../middleware/JWTAtion";
 
 // upload image
 const cloudinary = require("../config/cloundinary");
@@ -74,6 +75,7 @@ const initApiRoutes = (app) => {
   );
   router.get("/book/by-user/:id", bookController.readByUserId);
   router.put("/book/update", bookController.updateBookFunc);
+  router.get("/book/by-name/:name", bookController.getBookByNameFunc);
   // chapter routes
   router.get("/chapter/readAll/:id", bookController.getChapterFunc);
   router.get("/chapter/read/:id", bookController.readChapterFunc);
@@ -82,6 +84,10 @@ const initApiRoutes = (app) => {
   router.put("/chapter/update", bookController.updateChapterFunc);
   router.put("/chapter/publish/:id", bookController.updatePublishChapterFunc);
   router.delete("/chapter/delete/:id", bookController.deleteChapterFunc);
+
+  // reivIew routes
+  router.get("/review/read/:bookID", reviewController.readReviewByBookIDFunc);
+  router.post("/review/create", reviewController.createReviewFunc);
 
   // payment routes
   router.post("/create-payment-link", async (req, res) => {
