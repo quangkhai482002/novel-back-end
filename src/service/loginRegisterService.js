@@ -89,6 +89,7 @@ const handleUserLogin = async (rawuserData) => {
         username: user.username,
         role: user.role,
         userID: user.userID,
+        avatar: user.avatar,
       };
       let token = createJWT(payload);
       //===========================================
@@ -102,6 +103,7 @@ const handleUserLogin = async (rawuserData) => {
             username: user.username,
             role: user.role,
             userID: user.userID,
+            avatar: user.avatar,
           },
         };
       }

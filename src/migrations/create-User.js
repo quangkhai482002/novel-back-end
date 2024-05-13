@@ -33,7 +33,15 @@ module.exports = {
       avatar: {
         type: Sequelize.STRING,
       },
-
+      birthday: {
+        type: Sequelize.STRING,
+      },
+      gender: {
+        type: Sequelize.STRING,
+      },
+      bio: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

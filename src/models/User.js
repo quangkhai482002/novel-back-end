@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         through: "Review",
         foreignKey: "userID",
       });
+      User.hasMany(models.Payment);
     }
   }
   User.init(
@@ -46,6 +47,9 @@ module.exports = (sequelize, DataTypes) => {
       typeOfAccount: DataTypes.STRING,
       follow: DataTypes.INTEGER,
       avatar: DataTypes.STRING,
+      birthday: DataTypes.STRING,
+      gender: DataTypes.STRING,
+      bio: DataTypes.STRING,
     },
     {
       sequelize,

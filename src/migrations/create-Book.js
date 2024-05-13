@@ -42,7 +42,12 @@ module.exports = {
       vote: {
         type: Sequelize.INTEGER,
       },
-
+      approve: {
+        type: Sequelize.STRING,
+      },
+      status: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

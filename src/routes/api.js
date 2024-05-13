@@ -46,9 +46,10 @@ const initApiRoutes = (app) => {
 
   router.get("/account", checkUserJWT, userController.getUserAccount);
   // user routes
-  router.get("/user/read", userController.readFunc);
+  router.get("/user/read", userController.readUserFunc);
   router.post("/user/create", userController.createFunc);
-  router.put("/user/update", userController.updateFunc);
+  router.put("/user/update", userController.updateUserFunc);
+  router.get("/user/read/:id", userController.getInforUserbyIDFunc);
   router.delete("/user/delete", userController.deleteFunc);
   // group routes
   router.get("/group/read", groupController.readFunc);
@@ -61,6 +62,7 @@ const initApiRoutes = (app) => {
   router.post("/role/assign-to-group", roleController.assignRoleToGroup);
 
   //book routes
+  router.get("/book/read-all", bookController.getAllBookFunc);
   router.get("/book/read", bookController.readFunc);
   router.get("/book/read/:id", bookController.readByIDFunc);
   router.post(
@@ -85,9 +87,15 @@ const initApiRoutes = (app) => {
   router.put("/chapter/publish/:id", bookController.updatePublishChapterFunc);
   router.delete("/chapter/delete/:id", bookController.deleteChapterFunc);
 
-  // reivIew routes
+  // reivIew, comment routes
   router.get("/review/read/:bookID", reviewController.readReviewByBookIDFunc);
   router.post("/review/create", reviewController.createReviewFunc);
+
+  router.get(
+    "/comment/read/:reviewID",
+    reviewController.getCommentByChapterIdFunc
+  );
+  router.post("/comment/create", reviewController.createCommentFunc);
 
   // payment routes
   router.post("/create-payment-link", async (req, res) => {

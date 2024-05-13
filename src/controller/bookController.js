@@ -1,6 +1,23 @@
 import bookService from "../service/bookService";
 
 // ========        books
+const getAllBookFunc = async (req, res) => {
+  try {
+    let data = await bookService.getAllBooks();
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
 const readFunc = async (req, res) => {
   try {
     let data = await bookService.getBook();
@@ -263,4 +280,5 @@ module.exports = {
   updateBookFunc,
   deleteChapterFunc,
   getBookByNameFunc,
+  getAllBookFunc,
 };

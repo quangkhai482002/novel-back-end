@@ -3,6 +3,43 @@ import db from "../models/index";
 const { Op } = require("sequelize");
 
 // books
+const getAllBooks = async () => {
+  try {
+    const books = await db.Book.findAll({
+      attributes: [
+        "bookID",
+        "writerID",
+        "bookName",
+        "author",
+        "writer",
+        "ratting",
+        "poster",
+        "view",
+        "desciption",
+        "tag",
+        "follow",
+        "vote",
+      ],
+      include: {
+        model: db.Chapter,
+        attributes: ["chapterID"],
+      },
+    });
+
+    return {
+      EC: 0,
+      EM: "Successfully found the books",
+      DT: books,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      EC: 1,
+      EM: "Error from service",
+      DT: [],
+    };
+  }
+};
 const getBook = async () => {
   try {
     let data = await db.Book.findAll({
@@ -123,6 +160,10 @@ const getBookByuserId = async (id) => {
         "follow",
         "vote",
       ],
+      include: {
+        model: db.Chapter,
+        attributes: ["chapterID"],
+      },
     });
     return {
       EM: "Get book success",
@@ -378,7 +419,6 @@ const updateChapter = async (data) => {
         },
       }
     );
-    console.log(chapter);
     return {
       EC: 0,
       EM: "Update chapter successfully",
@@ -431,4 +471,5 @@ module.exports = {
   updateBook,
   deleteChapter,
   getBooksByName,
+  getAllBooks,
 };

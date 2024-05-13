@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Book.hasMany(models.Chapter);
+      Book.hasMany(models.Chapter, { foreignKey: "bookID" });
       Book.belongsTo(models.User, {
         foreignKey: "writerID",
       });
@@ -46,6 +46,8 @@ module.exports = (sequelize, DataTypes) => {
       tag: DataTypes.STRING,
       follow: DataTypes.INTEGER,
       vote: DataTypes.STRING,
+      approve: DataTypes.STRING,
+      status: DataTypes.STRING,
     },
     {
       sequelize,
