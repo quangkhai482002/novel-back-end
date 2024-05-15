@@ -123,7 +123,40 @@ const updateBookFunc = async (req, res) => {
     });
   }
 };
-
+const addToBookshelfFunc = async (req, res) => {
+  try {
+    let data = await bookService.addToBookShelf(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+const getBookShelfFunc = async (req, res) => {
+  try {
+    let id = req.params.id;
+    let data = await bookService.getBookShelf(id);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
 // ========        chapters
 const getChapterFunc = async (req, res) => {
   try {
@@ -145,8 +178,10 @@ const getChapterFunc = async (req, res) => {
 };
 const readChapterFunc = async (req, res) => {
   try {
-    let id = req.params.id;
-    let data = await bookService.getChapterById(id);
+    // let id = req.params.id;
+    let bookID = req.params.bookID;
+    let orderNumber = req.params.orderNumber;
+    let data = await bookService.getChapterById(bookID, orderNumber);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,
@@ -281,4 +316,6 @@ module.exports = {
   deleteChapterFunc,
   getBookByNameFunc,
   getAllBookFunc,
+  addToBookshelfFunc,
+  getBookShelfFunc,
 };

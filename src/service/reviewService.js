@@ -73,6 +73,32 @@ const getCommentByChapterId = async (chapterID) => {
     };
   }
 };
+const getCommentByPostID = async (postID) => {
+  try {
+    let data = await db.Comment.findAll({
+      where: { postID: postID },
+      attributes: ["userID", "content", "createdAt"],
+      include: [
+        {
+          model: db.User,
+          attributes: ["username", "avatar"],
+        },
+      ],
+    });
+    return {
+      EC: 0,
+      EM: "Get comment success",
+      DT: data,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: 1,
+      EM: "Error from service",
+      DT: [],
+    };
+  }
+};
 const createComment = async (data) => {
   try {
     let newComment = db.Comment.create(data);
@@ -96,4 +122,5 @@ module.exports = {
   createReview,
   createComment,
   getCommentByChapterId,
+  getCommentByPostID,
 };

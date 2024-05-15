@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
       Comment.belongsTo(models.Chapter, {
         foreignKey: "chapterID",
       });
+      Comment.belongsTo(models.Forum, {
+        foreignKey: "postID",
+      });
     }
   }
   Comment.init(

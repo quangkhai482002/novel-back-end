@@ -97,9 +97,9 @@ const updateUser = async (data) => {
         username: data.username,
         email: data.email,
         avatar: data.avatar,
-        // birthday: data.birthday,
-        // gender:  data.gender,
-        // bio: data.bio,
+        birthday: data.birthday,
+        gender: data.gender,
+        bio: data.bio,
       },
       {
         where: {

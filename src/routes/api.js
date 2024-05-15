@@ -1,10 +1,11 @@
 import express from "express";
 import apiController from "../controller/apiController";
 import bookController from "../controller/bookController";
+import forumController from "../controller/forumController";
 import groupController from "../controller/groupController";
+import reviewController from "../controller/reviewController";
 import roleController from "../controller/roleController";
 import userController from "../controller/userController";
-import reviewController from "../controller/reviewController";
 import { checkUserJWT } from "../middleware/JWTAtion";
 
 // upload image
@@ -78,22 +79,36 @@ const initApiRoutes = (app) => {
   router.get("/book/by-user/:id", bookController.readByUserId);
   router.put("/book/update", bookController.updateBookFunc);
   router.get("/book/by-name/:name", bookController.getBookByNameFunc);
+  router.post("/bookshelf/create", bookController.addToBookshelfFunc);
+  router.get("/bookshelf/read/:id", bookController.getBookShelfFunc);
   // chapter routes
   router.get("/chapter/readAll/:id", bookController.getChapterFunc);
-  router.get("/chapter/read/:id", bookController.readChapterFunc);
+  router.get(
+    "/chapter/read/:bookID/:orderNumber",
+    bookController.readChapterFunc
+  );
   router.get("/chapter/draft/:id", bookController.getChapterDraftFunc);
   router.post("/chapter/create", bookController.createChapterFunc);
   router.put("/chapter/update", bookController.updateChapterFunc);
   router.put("/chapter/publish/:id", bookController.updatePublishChapterFunc);
   router.delete("/chapter/delete/:id", bookController.deleteChapterFunc);
 
-  // reivIew, comment routes
+  // forum routes
+  router.post("/forum/create", forumController.createForumFunc);
+  router.get("/forum/read", forumController.readForumFunc);
+  router.get("/forum/read/:forumID", forumController.readForumByForumIDFunc);
+
+  // reiview, comment routes
   router.get("/review/read/:bookID", reviewController.readReviewByBookIDFunc);
   router.post("/review/create", reviewController.createReviewFunc);
 
   router.get(
-    "/comment/read/:reviewID",
+    "/comment/read/:chapterID",
     reviewController.getCommentByChapterIdFunc
+  );
+  router.get(
+    "/comment/read/post/:postID",
+    reviewController.getCommentByPostIdFunc
   );
   router.post("/comment/create", reviewController.createCommentFunc);
 

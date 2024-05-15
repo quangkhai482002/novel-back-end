@@ -12,8 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       // User.belongsTo(models.Group);
       // User.belongsToMany(models.Project, { through: "Project_User" });
       User.hasMany(models.Book);
+      User.hasMany(models.Forum, {
+        foreignKey: "userID",
+      });
       User.hasMany(models.ListBook);
-      User.hasMany(models.Chapter);
+      User.hasMany(models.Chapter, { foreignKey: "writerID" });
       User.hasMany(models.Comment);
       User.hasMany(models.Review);
       User.belongsToMany(models.Book, {

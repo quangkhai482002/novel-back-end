@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class ListBook extends Model {
+  class Forum extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,33 +9,30 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      ListBook.belongsTo(models.User, {
+      Forum.belongsTo(models.User, {
         foreignKey: "userID",
       });
-      ListBook.belongsToMany(models.Book, {
-        // through: "ListBook_Book",
-        through: models.Book_ListBook,
-        foreignKey: "listID",
-        otherKey: "bookID",
+      Forum.hasMany(models.Comment, {
+        foreignKey: "postID",
       });
     }
   }
-  ListBook.init(
+  Forum.init(
     {
-      listID: {
+      postID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
       userID: DataTypes.INTEGER,
-      listName: DataTypes.STRING,
+      title: DataTypes.STRING,
+      content: DataTypes.TEXT,
+      tag: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "ListBook",
+      modelName: "Forum",
     }
   );
-  return ListBook;
+  return Forum;
 };
-
-// run code to create Table: npx sequelize-cli model:generate --name ListBook --attributes email:string,password:string,username:string

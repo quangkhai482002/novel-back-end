@@ -255,7 +255,73 @@ const getBooksByName = async (bookName) => {
     };
   }
 };
+const addToBookShelf = async (data) => {
+  try {
+    // Create a new list book
+    const newListBook = await db.ListBook.create({
+      userID: data.userID,
+    });
 
+    // Add book to the list book
+    await db.Book_ListBook.create({
+      bookID: data.bookID,
+      listID: newListBook.listID,
+    });
+
+    return {
+      EC: 0,
+      EM: "Add book to list book successfully",
+      DT: [],
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      EC: 1,
+      EM: "Error from service",
+      DT: [],
+    };
+  }
+};
+const getBookShelf = async (userID) => {
+  try {
+    const listBooks = await db.ListBook.findAll({
+      where: {
+        userID: userID,
+      },
+      attributes: ["listID"],
+      include: {
+        model: db.Book,
+        attributes: [
+          "bookID",
+          "writerID",
+          "bookName",
+          "author",
+          "writer",
+          "ratting",
+          "poster",
+          "view",
+          "desciption",
+          "tag",
+          "follow",
+          "vote",
+        ],
+      },
+    });
+
+    return {
+      EC: 0,
+      EM: "Get list book successfully",
+      DT: listBooks,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      EC: 1,
+      EM: "Error from service",
+      DT: [],
+    };
+  }
+};
 // chapters
 
 const getChapter = async (bookID) => {
@@ -292,11 +358,13 @@ const getChapter = async (bookID) => {
     };
   }
 };
-const getChapterById = async (id) => {
+const getChapterById = async (bookID, orderNumber) => {
   try {
     let data = await db.Chapter.findOne({
       where: {
-        chapterID: id,
+        // chapterID: id,
+        bookID: bookID,
+        orderNumber: orderNumber,
       },
       attributes: [
         "chapterID",
@@ -312,9 +380,19 @@ const getChapterById = async (id) => {
       ],
       include: {
         model: db.Book,
-        attributes: ["bookName"],
+        attributes: ["bookName", "view"],
       },
     });
+    if (data) {
+      // Increment view in Chapter
+      await data.increment("view", { by: 1 });
+      await data.reload();
+      // Increment view in Book
+      await db.Book.increment("view", {
+        by: 1,
+        where: { bookID: data.bookID },
+      });
+    }
     return {
       EM: "Get chapter success",
       EC: 0,
@@ -472,4 +550,6 @@ module.exports = {
   deleteChapter,
   getBooksByName,
   getAllBooks,
+  addToBookShelf,
+  getBookShelf,
 };
