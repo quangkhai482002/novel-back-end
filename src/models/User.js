@@ -53,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       birthday: DataTypes.STRING,
       gender: DataTypes.STRING,
       bio: DataTypes.STRING,
+      coin: DataTypes.INTEGER,
     },
     {
       sequelize,

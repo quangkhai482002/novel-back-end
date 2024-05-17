@@ -48,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       vote: DataTypes.STRING,
       approve: DataTypes.STRING,
       status: DataTypes.STRING,
+      nomination: DataTypes.INTEGER,
     },
     {
       sequelize,

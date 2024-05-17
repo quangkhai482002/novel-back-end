@@ -56,6 +56,7 @@ const getBook = async () => {
         "tag",
         "follow",
         "vote",
+        "nomination",
       ],
     });
     return {
