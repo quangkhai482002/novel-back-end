@@ -7,6 +7,7 @@ import reviewController from "../controller/reviewController";
 import roleController from "../controller/roleController";
 import userController from "../controller/userController";
 import { checkUserJWT } from "../middleware/JWTAtion";
+import paymentController from "../controller/paymentController";
 
 // upload image
 const cloudinary = require("../config/cloundinary");
@@ -114,7 +115,6 @@ const initApiRoutes = (app) => {
 
   // payment routes
   router.post("/create-payment-link", async (req, res) => {
-    console.log("req.body", req.body);
     const order = {
       ...req.body,
       orderCode: Math.floor(Math.random() * 1000000),
@@ -124,7 +124,9 @@ const initApiRoutes = (app) => {
     const paymentLink = await payos.createPaymentLink(order);
     return res.json(paymentLink);
   });
-
+  router.post("/receive-hook", paymentController.createPaymentFunc);
+  router.get("/payment/read", paymentController.getPaymentFunc);
   return app.use("/api/v1/", router);
 };
+
 export default initApiRoutes;

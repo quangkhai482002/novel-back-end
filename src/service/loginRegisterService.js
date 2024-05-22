@@ -56,9 +56,6 @@ const registerNewUser = async (rawuserData) => {
       email: rawuserData.email,
       password: hashPass,
       role: "USER",
-      // groupID: 4,
-      //   username: rawuserData.username,
-      //   phone: rawuserData.phone,
     });
     return { EM: "Register successfully", EC: 0 };
   } catch (error) {

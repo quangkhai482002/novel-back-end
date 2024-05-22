@@ -1,6 +1,5 @@
 require("dotenv").config();
 import express from "express";
-import configViewEngine from "./config/viewEngine";
 import initApiRoutes from "./routes/api";
 import configCors from "./config/cors";
 import bodyParser from "body-parser";
@@ -12,9 +11,6 @@ const PORT = process.env.PORT || 4000;
 
 //config cors
 configCors(app);
-
-//config view engine
-configViewEngine(app);
 
 //config body-parser
 app.use(bodyParser.json());

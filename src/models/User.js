@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Forum, {
         foreignKey: "userID",
       });
+      User.hasMany(models.Payment, { foreignKey: "userID" });
       User.hasMany(models.ListBook);
       User.hasMany(models.Chapter, { foreignKey: "writerID" });
       User.hasMany(models.Comment);
@@ -32,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
         through: "Review",
         foreignKey: "userID",
       });
-      User.hasMany(models.Payment);
     }
   }
   User.init(
