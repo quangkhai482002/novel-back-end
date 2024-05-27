@@ -25,8 +25,24 @@ const createPayment = async (data) => {
           }
         );
       } else {
+        let incrementValue;
+
+        if (data.amount === 10000) {
+          incrementValue = 99;
+        } else if (data.amount === 20000) {
+          incrementValue = 300;
+        } else if (data.amount === 60000) {
+          incrementValue = 980;
+        } else if (data.amount === 100000) {
+          incrementValue = 1990;
+        } else if (data.amount === 150000) {
+          incrementValue = 1990;
+        } else {
+          // Default increment value or throw an error
+          incrementValue = 0;
+        }
         let user = await db.User.increment("coin", {
-          by: data.amount,
+          by: incrementValue,
           where: {
             userID: data.userID,
           },

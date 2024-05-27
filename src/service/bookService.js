@@ -361,6 +361,28 @@ const getBookShelf = async (userID) => {
     };
   }
 };
+const voteBook = async (bookID) => {
+  try {
+    let book = await db.Book.increment("vote", {
+      by: 1,
+      where: {
+        bookID: bookID,
+      },
+    });
+    return {
+      EC: 0,
+      EM: "Vote book successfully",
+      DT: [],
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      EC: 1,
+      EM: "Error from service",
+      DT: [],
+    };
+  }
+};
 // chapters
 
 const getChapter = async (bookID) => {
@@ -592,4 +614,5 @@ module.exports = {
   getAllBooks,
   addToBookShelf,
   getBookShelf,
+  voteBook,
 };

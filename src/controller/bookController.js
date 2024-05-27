@@ -157,6 +157,23 @@ const getBookShelfFunc = async (req, res) => {
     });
   }
 };
+const voteBookFunc = async (req, res) => {
+  try {
+    // let data = await bookService.voteBook(req.body);
+    let data = await bookService.voteBook(req.params.bookID);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
 // ========        chapters
 const getChapterFunc = async (req, res) => {
   try {
@@ -318,4 +335,5 @@ module.exports = {
   getAllBookFunc,
   addToBookshelfFunc,
   getBookShelfFunc,
+  voteBookFunc,
 };
