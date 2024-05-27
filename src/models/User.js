@@ -9,14 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // User.belongsTo(models.Group);
-      // User.belongsToMany(models.Project, { through: "Project_User" });
-      User.hasMany(models.Book);
+      User.hasMany(models.Book, { foreignKey: "writerID" });
       User.hasMany(models.Forum, {
         foreignKey: "userID",
       });
       User.hasMany(models.Payment, { foreignKey: "userID" });
-      User.hasMany(models.ListBook);
+      User.hasOne(models.ListBook, { foreignKey: "userID" });
       User.hasMany(models.Chapter, { foreignKey: "writerID" });
       User.hasMany(models.Comment);
       User.hasMany(models.Review);

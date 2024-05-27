@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Book_ListBook.init(
     {
+      Book_ListBookID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       bookID: DataTypes.INTEGER,
       listID: DataTypes.INTEGER,
     },

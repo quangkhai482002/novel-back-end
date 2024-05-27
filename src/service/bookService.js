@@ -15,7 +15,7 @@ const getAllBooks = async () => {
         "ratting",
         "poster",
         "view",
-        "desciption",
+        "description",
         "tag",
         "follow",
         "vote",
@@ -52,11 +52,11 @@ const getBook = async () => {
         "ratting",
         "poster",
         "view",
-        "desciption",
+        "description",
         "tag",
         "follow",
         "vote",
-        "nomination",
+        "reward",
       ],
     });
     return {
@@ -88,11 +88,16 @@ const getBookByID = async (id) => {
         "ratting",
         "poster",
         "view",
-        "desciption",
+        "description",
         "tag",
         "follow",
         "vote",
+        "status",
       ],
+      include: {
+        model: db.Chapter,
+        attributes: ["chapterID"],
+      },
     });
     return {
       EM: "Get book success",
@@ -110,7 +115,16 @@ const getBookByID = async (id) => {
 };
 const createBook = async (data) => {
   try {
-    let newBook = await db.Book.create(data);
+    let newBook = await db.Book.create({
+      ...data,
+      ratting: 0,
+      view: 0,
+      follow: 0,
+      vote: 0,
+      reward: 0,
+      writer: "",
+      approve: "pending",
+    });
     return {
       EC: 0,
       EM: "Create book successfully",
@@ -156,10 +170,12 @@ const getBookByuserId = async (id) => {
         "ratting",
         "poster",
         "view",
-        "desciption",
+        "description",
         "tag",
         "follow",
         "vote",
+        "status",
+        "reward",
       ],
       include: {
         model: db.Chapter,
@@ -185,10 +201,11 @@ const updateBook = async (data) => {
     let book = await db.Book.update(
       {
         bookName: data.bookName,
-        desciption: data.description,
+        description: data.description,
         tag: data.tag,
         author: data.author,
         poster: data.poster,
+        status: data.status,
       },
       {
         where: {
@@ -227,7 +244,7 @@ const getBooksByName = async (bookName) => {
         "ratting",
         "poster",
         "view",
-        "desciption",
+        "description",
         "tag",
         "follow",
         "vote",
@@ -258,20 +275,44 @@ const getBooksByName = async (bookName) => {
 };
 const addToBookShelf = async (data) => {
   try {
-    // Create a new list book
-    const newListBook = await db.ListBook.create({
-      userID: data.userID,
+    // Find the existing list book of the user
+    let listBook = await db.ListBook.findOne({
+      where: {
+        userID: data.userID,
+      },
     });
+
+    // If the user does not have a list book, create one
+    if (!listBook) {
+      listBook = await db.ListBook.create({
+        userID: data.userID,
+      });
+    }
+    // Check if the book is already in the list book
+    const existingBook = await db.Book_ListBook.findOne({
+      where: {
+        bookID: data.bookID,
+        listID: listBook.listID,
+      },
+    });
+
+    if (existingBook) {
+      return {
+        EC: 1,
+        EM: "Truyện đã có trong kệ sách của bạn",
+        DT: [],
+      };
+    }
 
     // Add book to the list book
     await db.Book_ListBook.create({
       bookID: data.bookID,
-      listID: newListBook.listID,
+      listID: listBook.listID,
     });
 
     return {
       EC: 0,
-      EM: "Add book to list book successfully",
+      EM: "Thêm vào kệ sách thành công",
       DT: [],
     };
   } catch (error) {
@@ -285,34 +326,31 @@ const addToBookShelf = async (data) => {
 };
 const getBookShelf = async (userID) => {
   try {
-    const listBooks = await db.ListBook.findAll({
+    const listBook = await db.ListBook.findOne({
       where: {
         userID: userID,
       },
-      attributes: ["listID"],
-      include: {
-        model: db.Book,
-        attributes: [
-          "bookID",
-          "writerID",
-          "bookName",
-          "author",
-          "writer",
-          "ratting",
-          "poster",
-          "view",
-          "desciption",
-          "tag",
-          "follow",
-          "vote",
-        ],
-      },
+      include: [
+        {
+          model: db.Book,
+          through: db.Book_ListBook,
+          as: "Books",
+        },
+      ],
     });
+
+    if (!listBook) {
+      return {
+        EC: 1,
+        EM: "User does not have a list book",
+        DT: [],
+      };
+    }
 
     return {
       EC: 0,
       EM: "Get list book successfully",
-      DT: listBooks,
+      DT: listBook.Books,
     };
   } catch (error) {
     console.error(error);
@@ -344,6 +382,7 @@ const getChapter = async (bookID) => {
         "createdAt",
         "updatedAt",
       ],
+      order: [["orderNumber", "ASC"]],
     });
     return {
       EM: "Get chapter success",

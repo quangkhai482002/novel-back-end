@@ -20,15 +20,6 @@ const checkEmail = async (usereEmail) => {
   }
   return false;
 };
-// const checkPhone = async (userPhone) => {
-//   let isExist = await db.User.findOne({
-//     where: { phone: userPhone },
-//   });
-//   if (isExist) {
-//     return true;
-//   }
-//   return false;
-// };
 
 const registerNewUser = async (rawuserData) => {
   try {
@@ -40,22 +31,25 @@ const registerNewUser = async (rawuserData) => {
         EC: 1,
       };
     }
-    // let isPhoneExist = await checkPhone(rawuserData.phone);
-    // if (isPhoneExist === true) {
-    //   return {
-    //     EM: "Phone is already exist",
-    //     EC: 1,
-    //   };
-    // }
 
     //hash password
     let hashPass = hashPassword(rawuserData.password);
 
     //create new user
     await db.User.create({
+      fullname: rawuserData.email.split("@")[0],
       email: rawuserData.email,
+      username: rawuserData.email.split("@")[0],
       password: hashPass,
       role: "USER",
+      typeOfAccount: "free",
+      follow: 0,
+      avatar:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8FAhwhYIjaPus1tva6Pb8Upi4KBwRothf0vP_7-jRz4VNPgVmRHqWstkDyc3ATGRwPyo&usqp=CAU",
+      birthday: "",
+      gender: "",
+      bio: "",
+      coin: 0,
     });
     return { EM: "Register successfully", EC: 0 };
   } catch (error) {
@@ -77,8 +71,6 @@ const handleUserLogin = async (rawuserData) => {
         rawuserData.password,
         user.password
       );
-      //test roles:
-      // let groupWithRoles = await getGroupWithRole(user);
 
       //=============== create token ==============
       let payload = {
@@ -87,6 +79,8 @@ const handleUserLogin = async (rawuserData) => {
         role: user.role,
         userID: user.userID,
         avatar: user.avatar,
+        coin: user.coin,
+        typeOfAccount: user.typeOfAccount,
       };
       let token = createJWT(payload);
       //===========================================
@@ -101,6 +95,8 @@ const handleUserLogin = async (rawuserData) => {
             role: user.role,
             userID: user.userID,
             avatar: user.avatar,
+            coin: user.coin,
+            typeOfAccount: user.typeOfAccount,
           },
         };
       }

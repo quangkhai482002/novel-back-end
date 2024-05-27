@@ -30,7 +30,7 @@ module.exports = {
       view: {
         type: Sequelize.STRING,
       },
-      desciption: {
+      description: {
         type: Sequelize.TEXT,
       },
       tag: {
@@ -48,7 +48,7 @@ module.exports = {
       status: {
         type: Sequelize.STRING,
       },
-      nomination: {
+      reward: {
         type: Sequelize.INTEGER,
       },
       createdAt: {

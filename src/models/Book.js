@@ -18,14 +18,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "bookID",
       });
       Book.belongsToMany(models.ListBook, {
-        through: "Book_ListBook",
-        foreignKey: "bookID",
+        through: models.Book_ListBook,
+        foreignKey: "listID",
+        otherKey: "bookID",
       });
       Book.belongsToMany(models.User, {
         through: "Review",
         foreignKey: "bookID",
       });
-      Book.hasMany(models.Review);
+      Book.hasMany(models.Review, { foreignKey: "bookID" });
     }
   }
   Book.init(
@@ -39,16 +40,16 @@ module.exports = (sequelize, DataTypes) => {
       bookName: DataTypes.STRING,
       author: DataTypes.STRING,
       writer: DataTypes.STRING,
-      ratting: DataTypes.INTEGER,
+      ratting: DataTypes.FLOAT,
       poster: DataTypes.STRING,
       view: DataTypes.INTEGER,
-      desciption: DataTypes.TEXT,
+      description: DataTypes.TEXT,
       tag: DataTypes.STRING,
       follow: DataTypes.INTEGER,
       vote: DataTypes.INTEGER,
       approve: DataTypes.STRING,
       status: DataTypes.STRING,
-      nomination: DataTypes.INTEGER,
+      reward: DataTypes.INTEGER,
     },
     {
       sequelize,

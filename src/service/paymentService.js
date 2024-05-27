@@ -12,6 +12,27 @@ const createPayment = async (data) => {
       codePayment: data.codePayment,
       status: data.status,
     });
+    if (newPayment) {
+      if (data.serviceName === "premium") {
+        let user = await db.User.update(
+          {
+            typeOfAccount: "premium",
+          },
+          {
+            where: {
+              userID: data.userID,
+            },
+          }
+        );
+      } else {
+        let user = await db.User.increment("coin", {
+          by: data.amount,
+          where: {
+            userID: data.userID,
+          },
+        });
+      }
+    }
     return {
       EC: 0,
       EM: "Create forum successfully",

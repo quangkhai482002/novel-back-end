@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userID",
       });
       ListBook.belongsToMany(models.Book, {
-        // through: "ListBook_Book",
         through: models.Book_ListBook,
         foreignKey: "listID",
         otherKey: "bookID",

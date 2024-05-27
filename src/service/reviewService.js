@@ -30,7 +30,32 @@ const getReviewByBookId = async (bookID) => {
 };
 const createReview = async (data) => {
   try {
-    let newReview = db.Review.create(data);
+    let newReview = await db.Review.create(data);
+
+    // Get the book
+    let book = await db.Book.findOne({
+      where: {
+        bookID: data.bookID,
+      },
+    });
+    // Get all reviews of the book
+    let reviews = await db.Review.findAll({
+      where: {
+        bookID: data.bookID,
+      },
+    });
+    // Calculate new ratting
+    let totalRating = reviews.reduce(
+      (total, review) => total + parseFloat(review.ratting),
+      parseFloat(book.ratting)
+    );
+    let averageRating = totalRating / (reviews.length + 1);
+
+    // Update book's rating
+    await db.Book.update(
+      { ratting: averageRating },
+      { where: { bookID: data.bookID } }
+    );
     return {
       EC: 0,
       EM: "Create review success",

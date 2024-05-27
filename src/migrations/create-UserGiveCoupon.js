@@ -3,16 +3,19 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("UserGiveCoupon", {
-      userID: {
+      couponID: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      userID: {
+        type: Sequelize.INTEGER,
+      },
       bookID: {
         type: Sequelize.INTEGER,
       },
-      countOfCoupons: {
+      countOfCoupon: {
         type: Sequelize.INTEGER,
       },
 

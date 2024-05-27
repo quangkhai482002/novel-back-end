@@ -98,6 +98,8 @@ const getUserAccount = async (req, res) => {
       username: req.user.username,
       userID: req.user.userID,
       avatar: req.user.avatar,
+      coin: req.user.coin,
+      typeOfAccount: req.user.typeOfAccount,
     },
   });
 };

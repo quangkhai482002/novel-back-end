@@ -8,6 +8,7 @@ import roleController from "../controller/roleController";
 import userController from "../controller/userController";
 import { checkUserJWT } from "../middleware/JWTAtion";
 import paymentController from "../controller/paymentController";
+import giveCouponController from "../controller/giveCouponController";
 
 // upload image
 const cloudinary = require("../config/cloundinary");
@@ -126,6 +127,10 @@ const initApiRoutes = (app) => {
   });
   router.post("/receive-hook", paymentController.createPaymentFunc);
   router.get("/payment/read", paymentController.getPaymentFunc);
+
+  // give coupon routes
+  router.post("/give-coupon/create", giveCouponController.createGiveCouponFunc);
+
   return app.use("/api/v1/", router);
 };
 
