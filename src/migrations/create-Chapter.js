@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       orderNumber: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       content: {
         type: Sequelize.TEXT,
