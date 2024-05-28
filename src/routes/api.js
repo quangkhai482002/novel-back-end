@@ -83,6 +83,7 @@ const initApiRoutes = (app) => {
   router.get("/book/by-name/:name", bookController.getBookByNameFunc);
   router.post("/bookshelf/create", bookController.addToBookshelfFunc);
   router.get("/bookshelf/read/:id", bookController.getBookShelfFunc);
+  router.delete("/bookshelf/delete", bookController.deleteBookInBookShelfFunc);
   router.post("/vote/book/:bookID", bookController.voteBookFunc);
 
   // chapter routes

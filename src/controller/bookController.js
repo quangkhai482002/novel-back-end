@@ -139,6 +139,22 @@ const addToBookshelfFunc = async (req, res) => {
     });
   }
 };
+const deleteBookInBookShelfFunc = async (req, res) => {
+  try {
+    let data = await bookService.deleteBookInBookShelf(req.body);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
 const getBookShelfFunc = async (req, res) => {
   try {
     let id = req.params.id;
@@ -336,4 +352,5 @@ module.exports = {
   addToBookshelfFunc,
   getBookShelfFunc,
   voteBookFunc,
+  deleteBookInBookShelfFunc,
 };

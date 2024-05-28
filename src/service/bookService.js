@@ -361,6 +361,28 @@ const getBookShelf = async (userID) => {
     };
   }
 };
+const deleteBookInBookShelf = async (data) => {
+  // console.log("data", data);
+  try {
+    await db.Book_ListBook.destroy({
+      where: {
+        bookID: data,
+      },
+    });
+    return {
+      EC: 0,
+      EM: "Delete book in bookshelf successfully",
+      DT: [],
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      EC: 1,
+      EM: "Error from service",
+      DT: [],
+    };
+  }
+};
 const voteBook = async (bookID) => {
   try {
     let book = await db.Book.increment("vote", {
@@ -580,7 +602,6 @@ const deleteChapter = async (chapterID) => {
         chapterID: chapterID,
       },
     });
-    console.log(chapter);
     return {
       EC: 0,
       EM: "Delete chapter successfully",
@@ -615,4 +636,5 @@ module.exports = {
   addToBookShelf,
   getBookShelf,
   voteBook,
+  deleteBookInBookShelf,
 };
