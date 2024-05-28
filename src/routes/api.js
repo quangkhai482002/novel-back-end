@@ -54,6 +54,7 @@ const initApiRoutes = (app) => {
   router.put("/user/update", userController.updateUserFunc);
   router.get("/user/read/:id", userController.getInforUserbyIDFunc);
   router.delete("/user/delete", userController.deleteFunc);
+  router.get("/user/coin/:id", userController.getCoinFunc);
   // group routes
   router.get("/group/read", groupController.readFunc);
 

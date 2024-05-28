@@ -10,7 +10,6 @@ const hashPassword = (userPassword) => {
   let hashPassword = bcrypt.hashSync(userPassword, salt);
   return hashPassword;
 };
-
 const createNewUser = async (email, password, username) => {
   let hashPass = hashPassword(password);
   try {
@@ -23,7 +22,6 @@ const createNewUser = async (email, password, username) => {
     console.log(error);
   }
 };
-
 const getUserList = async () => {
   try {
     let users = await db.User.findAll({
@@ -40,7 +38,6 @@ const getUserList = async () => {
     console.log(error);
   }
 };
-
 const deleteUser = async (userId) => {
   try {
     await db.User.destroy({
@@ -52,7 +49,6 @@ const deleteUser = async (userId) => {
     console.log(error);
   }
 };
-
 const getUserById = async (id) => {
   try {
     let user = {};
@@ -121,6 +117,27 @@ const updateUser = async (data) => {
     };
   }
 };
+const getCoin = async (userID) => {
+  try {
+    let user = await db.User.findOne({
+      where: {
+        userID: userID,
+      },
+    });
+    return {
+      EC: 0,
+      EM: "Get coin successfully",
+      DT: user.coin,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: -1,
+      EM: "Error from server",
+      DT: [],
+    };
+  }
+};
 module.exports = {
   createNewUser,
   getUserList,
@@ -128,4 +145,5 @@ module.exports = {
   getUserById,
   updateUser,
   getInforByUserID,
+  getCoin,
 };

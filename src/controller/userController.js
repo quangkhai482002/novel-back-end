@@ -18,7 +18,6 @@ const readUserFunc = async (req, res) => {
     });
   }
 };
-
 const createFunc = async (req, res) => {
   try {
     //validate
@@ -70,7 +69,6 @@ const updateUserFunc = async (req, res) => {
     });
   }
 };
-
 const deleteFunc = async (req, res) => {
   try {
     let data = await userAPIService.deleteUser(req.body.id);
@@ -103,6 +101,24 @@ const getUserAccount = async (req, res) => {
     },
   });
 };
+const getCoinFunc = async (req, res) => {
+  let userID = req.params.id;
+  try {
+    let data = await userService.getCoin(userID);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EC: -1,
+      EM: "Error from server",
+      DT: "",
+    });
+  }
+};
+
 module.exports = {
   readUserFunc,
   createFunc,
@@ -110,4 +126,5 @@ module.exports = {
   deleteFunc,
   getUserAccount,
   getInforUserbyIDFunc,
+  getCoinFunc,
 };
