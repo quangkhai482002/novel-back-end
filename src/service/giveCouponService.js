@@ -10,7 +10,22 @@ const createGiveCoupon = async (data) => {
       countOfCoupon: data.gift,
     });
     if (newGiveCoupon) {
-      let user = await db.User.increment("coin", {
+      // Find the user with the given userID
+      let user = await db.User.findOne({
+        where: {
+          userID: data.userID,
+        },
+      });
+
+      // If the user's coin is less than data.gift, throw an error
+      if (user.coin < data.gift) {
+        return {
+          EC: 1,
+          EM: "Không đủ coin vui lòng nạp thêm ",
+          DT: {},
+        };
+      }
+      await db.User.increment("coin", {
         by: -data.gift,
         where: {
           userID: data.userID,
@@ -25,6 +40,12 @@ const createGiveCoupon = async (data) => {
 
       // If the book exists, increment the coin of the writer
       if (book) {
+        await db.Book.increment("reward", {
+          by: data.gift,
+          where: {
+            bookID: book.bookID,
+          },
+        });
         await db.User.increment("coin", {
           by: data.gift,
           where: {
