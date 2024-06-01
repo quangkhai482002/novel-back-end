@@ -103,6 +103,8 @@ const initApiRoutes = (app) => {
   router.post("/forum/create", forumController.createForumFunc);
   router.get("/forum/read", forumController.readForumFunc);
   router.get("/forum/read/:forumID", forumController.readForumByForumIDFunc);
+  router.put("/forum/update", forumController.updateForumFunc);
+  router.delete("/forum/delete", forumController.deleteForumFunc);
 
   // reiview, comment routes
   router.get("/review/read/:bookID", reviewController.readReviewByBookIDFunc);

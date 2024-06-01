@@ -20,7 +20,6 @@ const createForum = async (data) => {
     };
   }
 };
-
 const readForum = async () => {
   try {
     let data = await db.Forum.findAll({
@@ -68,9 +67,76 @@ const readForumByForumID = async (forumID) => {
     };
   }
 };
+const updateForum = async (data) => {
+  try {
+    let forum = await db.Forum.update(
+      {
+        content: data.content,
+        title: data.title,
+        tag: data.tag,
+      },
+      {
+        where: {
+          postID: data.postID,
+          userID: data.userID,
+        },
+      }
+    );
+    if (!forum) {
+      return {
+        EC: 1,
+        EM: "Bạn không có quyền chỉnh sửa bài viết này",
+        DT: {},
+      };
+    }
+    return {
+      EC: 0,
+      EM: "Update forum successfully",
+      DT: {},
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: -1,
+      EM: "Error from server",
+      DT: {},
+    };
+  }
+};
+const deleteForum = async (data) => {
+  try {
+    let forum = await db.Forum.destroy({
+      where: {
+        postID: data.postID,
+        userID: data.userID,
+      },
+    });
+    if (!forum) {
+      return {
+        EC: 1,
+        EM: "Bạn không có quyền xóa bài viết này",
+        DT: {},
+      };
+    }
+    return {
+      EC: 0,
+      EM: "Delete forum successfully",
+      DT: {},
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      EC: -1,
+      EM: "Error from server",
+      DT: {},
+    };
+  }
+};
 
 module.exports = {
   createForum,
   readForum,
   readForumByForumID,
+  updateForum,
+  deleteForum,
 };
