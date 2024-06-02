@@ -227,13 +227,22 @@ const updateBook = async (data) => {
     };
   }
 };
-const getBooksByName = async (bookName) => {
+const getBooksByName = async (searchTerm) => {
   try {
     const data = await db.Book.findAll({
       where: {
-        bookName: {
-          [Op.like]: "%" + bookName + "%",
-        },
+        [Op.or]: [
+          {
+            bookName: {
+              [Op.like]: "%" + searchTerm + "%",
+            },
+          },
+          {
+            author: {
+              [Op.like]: "%" + searchTerm + "%",
+            },
+          },
+        ],
       },
       attributes: [
         "bookID",
